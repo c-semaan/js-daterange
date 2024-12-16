@@ -1,0 +1,10 @@
+.env
+.env.production
+node_modules/
+*.pub
+*.ppk
+public
+.chrome
+logs
+build/
+dist

@@ -1,0 +1,30 @@
+{
+  "name": "daterange-js",
+  "version": "0.0.1",
+  "description": "Utility for handling date ranges across different timezones built on top of dayjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "date",
+    "timezone",
+    "range",
+    "utility"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/c-semaan/periodjs/issues"
+  },
+  "homepage": "https://github.com/c-semaan/wa-library#readme",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.13"
+  }
+}
