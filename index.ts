@@ -2,13 +2,11 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import weekday from "dayjs/plugin/weekday";
-import { DateFormat, DateRange } from "../types/enums";
+import { DateFormat, DateRange } from "./types/enums";
 dayjs.extend(weekday);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault("UTC");
-
-
 
 class Period {
   timezone: string;
