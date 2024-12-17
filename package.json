@@ -1,6 +1,6 @@
 {
   "name": "js-daterange",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Utility for handling date ranges across different timezones built on top of dayjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
