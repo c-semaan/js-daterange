@@ -1,4 +1,4 @@
-export enum DateRange {
+export enum PresetDateRange {
   TODAY = "TODAY",
   YESTERDAY = "YESTERDAY",
   THIS_WEEK = "THIS_WEEK",

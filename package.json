@@ -1,12 +1,13 @@
 {
   "name": "js-daterange",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utility for handling date ranges across different timezones built on top of dayjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "testfile": "nodemon --exec ts-node src/test.ts"
   },
   "keywords": [
     "date",
