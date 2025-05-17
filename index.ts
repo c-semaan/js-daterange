@@ -4,6 +4,7 @@ import utc from "dayjs/plugin/utc";
 import weekday from "dayjs/plugin/weekday";
 import { DateFormat, PresetDateRange } from "./types/enums";
 import { DateRange } from "./types/types";
+import { timeAgo } from "./src/utils/timeAgo";
 dayjs.extend(weekday);
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -16,7 +17,7 @@ class Period {
 
   /**
    * Creates an instance of the Period class to handle date ranges and time zone offsets.
-   * 
+   *
    * @param {DateFormat} dateformat - The format used for date formatting.
    * @param {string} [timezone] - The IANA time zone string, e.g., "Europe/Paris". If not provided, UTC is used.
    */
@@ -28,7 +29,7 @@ class Period {
 
   /**
    * Calculates the UTC offset based on the given time zone.
-   * 
+   *
    * @param {string} timezone - The IANA time zone string (e.g., "Europe/Paris").
    * @returns {number} The offset in minutes between the provided time zone and UTC.
    *                   Returns 0 if the time zone is invalid.
@@ -56,7 +57,7 @@ class Period {
 
   /**
    * Returns the date range for today, from the start of the day (00:00:00) to the end of the day (23:59:59).
-   * 
+   *
    * @returns {DateRange} The start and end dates for today in the specified format.
    */
   getToday(): DateRange {
@@ -74,7 +75,7 @@ class Period {
 
   /**
    * Returns the date range for yesterday, from the start of the day (00:00:00) to the end of the day (23:59:59).
-   * 
+   *
    * @returns {DateRange} The start and end dates for yesterday in the specified format.
    */
   getYesterday(): DateRange {
@@ -87,7 +88,7 @@ class Period {
 
   /**
    * Returns the date range for last week, from the previous Monday to the previous Sunday.
-   * 
+   *
    * @returns {DateRange} The start and end dates for the previous week in the specified format.
    */
   getLastWeek(): DateRange {
@@ -105,7 +106,7 @@ class Period {
 
   /**
    * Returns the date range for this week, from the current Monday to the current Sunday.
-   * 
+   *
    * @returns {DateRange} The start and end dates for the current week in the specified format.
    */
   getThisWeek(): DateRange {
@@ -124,7 +125,7 @@ class Period {
 
   /**
    * Returns the date range for this month, from the first day of the month to the last day of the month.
-   * 
+   *
    * @returns {DateRange} The start and end dates for the current month in the specified format.
    */
   getThisMonth(): DateRange {
@@ -143,7 +144,7 @@ class Period {
 
   /**
    * Returns the date range for last month, from the first day of the previous month to the last day of the previous month.
-   * 
+   *
    * @returns {DateRange} The start and end dates for the previous month in the specified format.
    */
   getLastMonth(): DateRange {
@@ -164,7 +165,7 @@ class Period {
 
   /**
    * Returns a date range for a predefined period based on the provided date range.
-   * 
+   *
    * @param {PresetDateRange} daterange - The predefined date range (e.g., LAST_MONTH, THIS_WEEK).
    * @returns {DateRange} The corresponding start and end dates for the specified period.
    */
@@ -193,11 +194,11 @@ class Period {
   /**
    * Generates a date range from the past based on a number of days.
    * The range can optionally include the current day as the end date.
-   * 
+   *
    * @param {number} prevDays - The number of previous days to calculate the range.
    * @param {boolean} includingToday - If true, the current day will be included as the end date.
    * @returns {DateRange} An object containing the formatted start and end dates.
-   * 
+   *
    * @example
    * const dateRange = createPastDateRange(7, true);
    * console.log(dateRange); // { start: "2024-12-10", end: "2024-12-17" }
@@ -206,8 +207,8 @@ class Period {
     const endDate = includingToday
       ? dayjs().utcOffset(this.utcOffset ?? 0)
       : dayjs()
-        .utcOffset(this.utcOffset ?? 0)
-        .subtract(1, "day");
+          .utcOffset(this.utcOffset ?? 0)
+          .subtract(1, "day");
 
     const startDate = endDate.subtract(prevDays, "day");
     return {
@@ -217,4 +218,4 @@ class Period {
   }
 }
 
-export { Period };
+export { Period, timeAgo };
