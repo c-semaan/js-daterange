@@ -11,10 +11,10 @@ npm install @yourusername/date-range-utils
 ## Usage
 
 ```typescript
-import { Period, DateFormat, DateRange } from '@yourusername/date-range-utils';
+import { Period, DateFormat, DateRange } from "@yourusername/date-range-utils";
 
 // Create a Period instance with a specific timezone and date format
-const period = new Period('America/New_York', DateFormat.YYYY_MM_DD);
+const period = new Period("America/New_York", DateFormat.YYYY_MM_DD);
 
 // Get date range for last month
 const lastMonthRange = period.createDefinedRange(DateRange.LAST_MONTH);
@@ -28,6 +28,7 @@ const customRange = period.createCustomRange(7, true);
 - `createDefinedRange(dateRange: DateRange)`: Get predefined date ranges
 - `createCustomRange(prevDays: number, includingToday: boolean)`: Create custom date ranges
 - `getOffset(timeZone: string)`: Get timezone offset
+- `timeAgo(date: Date | string | number, locale = "en")`: Converts a date into a human-readable relative time string using `Intl.RelativeTimeFormat`.
 
 ## License
 
