@@ -2,9 +2,9 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import weekday from "dayjs/plugin/weekday";
+import { timeAgo } from "./src/utils/timeAgo";
 import { DateFormat, PresetDateRange } from "./types/enums";
 import { DateRange } from "./types/types";
-import { timeAgo } from "./src/utils/timeAgo";
 dayjs.extend(weekday);
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,8 +23,8 @@ class Period {
    */
   constructor(dateformat: DateFormat, timezone?: string) {
     this.timezone = timezone;
-    if (timezone != null) this.utcOffset = this.calculateUtcOffset(timezone);
     this.dateformat = dateformat;
+    if (timezone != null) this.utcOffset = this.calculateUtcOffset(timezone);
   }
 
   /**
@@ -70,6 +70,7 @@ class Period {
       .utcOffset(this.utcOffset ?? 0)
       .endOf("day")
       .format(this.dateformat);
+
     return { start: today, end: endOfToday };
   }
 
@@ -79,11 +80,19 @@ class Period {
    * @returns {DateRange} The start and end dates for yesterday in the specified format.
    */
   getYesterday(): DateRange {
-    const yesterday = dayjs()
+    const startYesterday = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .subtract(1, "day")
-      .format(this.dateformat);
-    return { start: yesterday, end: yesterday };
+      .startOf("day")
+      .subtract(1, "day");
+    const endYesterday = dayjs()
+      .utcOffset(this.utcOffset ?? 0)
+      .endOf("day")
+      .subtract(1, "day");
+
+    return {
+      start: startYesterday.format(this.dateformat),
+      end: endYesterday.format(this.dateformat),
+    };
   }
 
   /**
@@ -94,14 +103,18 @@ class Period {
   getLastWeek(): DateRange {
     const lastMonday = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .weekday(-6)
-      .format(this.dateformat);
+      .weekday(-6);
     const lastSunday = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .weekday(0)
-      .format(this.dateformat);
+      .weekday(0);
 
-    return { start: lastMonday, end: lastSunday };
+    lastMonday.startOf("day");
+    lastSunday.endOf("day");
+
+    return {
+      start: lastMonday.format(this.dateformat),
+      end: lastSunday.format(this.dateformat),
+    };
   }
 
   /**
@@ -112,15 +125,19 @@ class Period {
   getThisWeek(): DateRange {
     const currMonday = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .day(1)
-      .format(this.dateformat);
+      .day(1);
 
     const currSunday = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .day(7)
-      .format(this.dateformat);
+      .day(7);
 
-    return { start: currMonday, end: currSunday };
+    currMonday.startOf("day");
+    currSunday.endOf("day");
+
+    return {
+      start: currMonday.format(this.dateformat),
+      end: currSunday.format(this.dateformat),
+    };
   }
 
   /**
@@ -129,17 +146,21 @@ class Period {
    * @returns {DateRange} The start and end dates for the current month in the specified format.
    */
   getThisMonth(): DateRange {
-    const FirstDayOfThisMonth = dayjs()
+    const firstDayOfThisMonth = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .startOf("month")
-      .format(this.dateformat);
+      .startOf("month");
 
     const lastDayOfThisMonth = dayjs()
       .utcOffset(this.utcOffset ?? 0)
-      .endOf("month")
-      .format(this.dateformat);
+      .endOf("month");
 
-    return { start: FirstDayOfThisMonth, end: lastDayOfThisMonth };
+    firstDayOfThisMonth.startOf("day");
+    lastDayOfThisMonth.endOf("day");
+
+    return {
+      start: firstDayOfThisMonth.format(this.dateformat),
+      end: lastDayOfThisMonth.format(this.dateformat),
+    };
   }
 
   /**
@@ -148,19 +169,23 @@ class Period {
    * @returns {DateRange} The start and end dates for the previous month in the specified format.
    */
   getLastMonth(): DateRange {
-    const FirstDayOfLastMonth = dayjs()
+    const firstDayOfLastMonth = dayjs()
       .utcOffset(this.utcOffset ?? 0)
       .subtract(1, "month")
-      .startOf("month")
-      .format(this.dateformat);
+      .startOf("month");
 
     const lastDayOfLastMonth = dayjs()
       .utcOffset(this.utcOffset ?? 0)
       .subtract(1, "month")
-      .endOf("month")
-      .format(this.dateformat);
+      .endOf("month");
 
-    return { start: FirstDayOfLastMonth, end: lastDayOfLastMonth };
+    firstDayOfLastMonth.startOf("day");
+    lastDayOfLastMonth.endOf("day");
+
+    return {
+      start: firstDayOfLastMonth.format(this.dateformat),
+      end: lastDayOfLastMonth.format(this.dateformat),
+    };
   }
 
   /**
@@ -209,8 +234,10 @@ class Period {
       : dayjs()
           .utcOffset(this.utcOffset ?? 0)
           .subtract(1, "day");
-
     const startDate = endDate.subtract(prevDays, "day");
+    startDate.startOf("day");
+    endDate.endOf("day");
+
     return {
       start: startDate.format(this.dateformat),
       end: endDate.format(this.dateformat),
